@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@200&display=swap');
+*{font-family: 'Gemunu Libre', sans-serif;}
+body{
+    background-color: black;
+    color: white;
+}
+ul {
+    list-style-type: none;
+    margin: 16px 32px;
+    overflow: hidden;
+  }
+  li {
+    float: right;
+    padding-right: 50px;
+  }
+  .logo {
+    float: left;
+  }
+  .logo:hover{
+    background-color: white;
+
+  }
+  li :hover{
+    background-color: white;
+  }
+
+li a {
+    display: block;
+    color:white;
+    text-align: center;
+    padding: 14px 24px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+  }
+.heading {
+    text-align: center;
+    padding-top: 75px;
+}
+.gambar>.gambar-gedung{
+    width: 900px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.sejarah>.sejarah-p{
+    text-align: center;
+    font-size: 20px;
+    padding-top: 50px;
+}
+.sejarah>.sejarah-h{
+    text-align: center;
+    font-size: 40px;
+    padding-top: 30px;
+}
+.sejarah-a{
+    padding-left: 50px;
+    max-width: 1200px;
+    margin:0 auto;
+    font-size: 1.4rem;
+    line-height: 1.3em;
+    @media only screen and (max-width: 768px) {
+        font-size:1.4rem
+        
+        
+    }
+    
+}
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .footer-main {
+    background-color:#004258;
+    padding: 24px 60px;
+    color: white;
+  }
+  
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 10px;
+    margin: 0 auto;
+    max-width: 100%;
+    justify-items: center;
+  }
+  
+  @media (max-width: 1024px) {
+    .footer-grid {
+      padding-left: 20px;
+    }
+  }
+  
+  .footer-grid p {
+    margin: 10px 0;
+  }
+
+
