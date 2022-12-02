@@ -80,8 +80,8 @@
                     </div>
             
                     
-                    <div class="panjul" style="margin-left: 950px;">
-                        <div class="">
+                    <div class="panjul col-xs-12 col-sm-12 col-md-12"  style="align-self: flex-end">
+                        <div class="float-right">
                             <a class="btn btn-primary" href="{{ route('dashboard') }}"> Back</a>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>

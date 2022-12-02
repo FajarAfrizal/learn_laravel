@@ -97,7 +97,7 @@
                         <td>
                             @if ($item['status'] == 1)
                                 
-                                <box-icon type='solid' name='bookmarks' class=""></box-icon>
+                                <box-icon type='solid' name='bookmarks' class="text-success"></box-icon>
                             @else
 
                                 <form action="{{ route('complated', $item->id) }}" method="POST" class="">
