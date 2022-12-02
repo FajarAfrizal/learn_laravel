@@ -62,7 +62,7 @@ class TodoController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/dashboard')->with('success', 'Berhasil Login');
         }
-        return redirect()->route('dashboard')->with('error-login', 'Invalid username or password!');
+        return redirect()->back()->with('error-login', 'Invalid username or password!');
     }
     public function indexes()
     {

@@ -29,12 +29,22 @@
                     )
                 </script>
             @endif
+            
             @if (session('logout'))
                 <script>
                     Swal.fire(
                         'Berhasil Logout ',
                         '',
                         'success'
+                    )
+                </script>
+            @endif
+            @if (session('error-login'))
+                <script>
+                    Swal.fire(
+                        'Username atau Password Salah !!',
+                        '',
+                        'error'
                     )
                 </script>
             @endif
