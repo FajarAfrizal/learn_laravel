@@ -14,11 +14,26 @@ use App\Http\Controllers\TodoController;
 |
 */
 
-Route::get('/',[TodoController::class,'index'])->name('login');
-Route::get('/register',[TodoController::class,'register'])->name('register');
-Route::post('/register/input',[TodoController::class,'registerAccount'])->name('register.input');
-Route::post('/login',[TodoController::class, 'auth'])->name('login.auth');
 
-Route::get('/dashboard', [TodoController::class, 'indexes']);
-Route::get('/add', [TodoController::class, 'create'])->name('add.dashboard');
-Route::post('/add', [TodoController::class, 'store'])->name('add.todo');
+
+
+
+Route::middleware('isLogin')->group(function () {
+    Route::get('/dashboard', [TodoController::class, 'indexes'])->name('dashboard');
+    Route::get('/add', [TodoController::class, 'create'])->name('add.dashboard');
+    Route::post('/add', [TodoController::class, 'store'])->name('add');
+    Route::delete('/delete/{id}', [TodoController::class, 'destroy'])->name('delete');
+    Route::get('/edit/{id}', [TodoController::class, 'edit'])->name('edit');
+    Route::put('/update/{id}', [TodoController::class, 'update'])->name('update');
+    Route::patch('/complated/{id}', [TodoController::class, 'updateComplated'])->name('complated');
+});
+
+Route::middleware('isGuest')->group(function () {
+    Route::get('/', [TodoController::class, 'index'])->name('login');
+    Route::get('/register', [TodoController::class, 'register'])->name('register');
+    Route::post('/register/input', [TodoController::class, 'registerAccount'])->name('register.input');
+    Route::post('/login', [TodoController::class, 'auth'])->name('login.auth');
+});
+
+
+Route::get('/logout', [TodoController::class, 'logout'])->name('logout');

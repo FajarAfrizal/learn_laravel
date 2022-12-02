@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\todo;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,12 @@ class TodoController extends Controller
     public function register()
     {
         return view('register');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('logout', 'berhasil logout');
     }
     public function index()
     {
@@ -53,13 +60,13 @@ class TodoController extends Controller
         ]);
         if(Auth::attempt($check)){
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard')->with('success', 'Berhasil Login');
         }
-        return redirect()->route('login')->with('error-login', 'Invalid username or password!');
+        return redirect()->route('dashboard')->with('error-login', 'Invalid username or password!');
     }
     public function indexes()
     {
-        $todo = todo::all();
+        $todo = todo::where('user_id', '=', Auth::user()->id)->get();
         return view('dashboard.index', compact('todo'));
     }
 
@@ -81,7 +88,19 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+            'title' => 'required|min:3',
+            'date' => 'required',
+            'description' => 'required|min:5'
+        ]);
+        todo::create([
+            'title' => $request->title,
+            'date' => $request->date,
+            'description' => $request->description,
+            'status' => 0,
+            'user_id' => Auth::user()->id
+        ]);
+        return redirect()->route('dashboard')->with('success-create', 'Berhasil Menambahkan');
     }
 
     /**
@@ -101,9 +120,10 @@ class TodoController extends Controller
      * @param  \App\Models\todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function edit(todo $todo)
+    public function edit(todo $todo, $id)
     {
-        //
+        $todos = todo::where('id', $id)->first();
+        return view('dashboard.edit', compact('todos'));
     }
 
     /**
@@ -113,9 +133,21 @@ class TodoController extends Controller
      * @param  \App\Models\todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, todo $todo)
-    {
-        //
+    public function update(Request $request, todo $todo, $id)
+    {   
+        $update = $request->validate([
+            'title' => 'required|min:3',
+            'date' => 'required',
+            'description' => 'required|min:5'
+        ]);
+        todo::where('id', $id)->update([
+            'title' => $request->title,
+            'date' => $request->date,
+            'description' => $request->description,
+            'status' => 0,
+            'user_id' => Auth::user()->id
+        ]);
+        return redirect()->route('dashboard')->with('success-update', 'Berhasil Menambahkan');
     }
 
     /**
@@ -124,8 +156,24 @@ class TodoController extends Controller
      * @param  \App\Models\todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(todo $todo)
+    public function destroy($id)
     {
-        //
+        $todo = todo::find($id);
+        $todo->delete();
+        return redirect()->route('dashboard')->with('success-delete', 'Behasil Menghapus');
+    }
+
+    public function complated()
+    {
+        return view('dashboard.complated');
+    }
+
+    public function updateComplated($id)
+    {
+        todo::where('id', '=', $id)->update([
+            'status' => 1,
+            'done_time' => \Carbon\Carbon::now()
+        ]);
+        return redirect()->back()->with('done', 'Todo telah berhasil di kerjakan');
     }
 }
